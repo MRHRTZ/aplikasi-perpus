@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 if (isset($_GET['logout'])) {
-    echo "<script>alert('Anda telah logout.')</script>";
+    echo "<script>alert('Anda telah logout.'); window.location.href='login.php'</script>";
 }
 
 ?>
