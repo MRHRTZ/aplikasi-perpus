@@ -1,13 +1,6 @@
 <?php
 include '../koneksi.php';
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $query = "SELECT * FROM pengguna WHERE id_pengguna = $id";
-    $result = mysqli_query($conn, $query);
-    $user = mysqli_fetch_assoc($result);
-}
-
 if (isset($_POST['simpan'])) {
     $id = $_POST['id'];
     $nama = $_POST['nama'];
@@ -18,12 +11,17 @@ if (isset($_POST['simpan'])) {
     $no_telp = $_POST['no_telp'];
 
     $password = md5($password);
-    $query = "INSERT INTO pengguna (nama, username, password, alamat, peran, no_telp) VALUES ('$nama', '$username', '$password', '$alamat', '$peran', '$no_telp')";
-    if (mysqli_query($conn, $query)) {
+    $query = "INSERT INTO pengguna (nama, username, password, alamat, peran, no_telp) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "ssssss", $nama, $username, $password, $alamat, $peran, $no_telp);
+
+    if (mysqli_stmt_execute($stmt)) {
         header('Location: pengguna_list.php');
     } else {
         echo "<script>alert('Gagal tambah data: " . mysqli_error($conn) . "')</script>";
     }
+
+    mysqli_stmt_close($stmt);
 }
 ?>
 

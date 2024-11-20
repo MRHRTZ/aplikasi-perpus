@@ -4,7 +4,7 @@ include '../koneksi.php';
 if (isset($_GET['confirm']) && $_GET['confirm'] == 'true') {
     $id = $_GET['id'];
 
-    $query = "DELETE FROM pengguna WHERE id_pengguna = ?";
+    $query = "DELETE FROM buku WHERE id_buku = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
 
@@ -17,17 +17,17 @@ if (isset($_GET['confirm']) && $_GET['confirm'] == 'true') {
     $stmt->close();
     $conn->close();
 
-    header('Location: pengguna_list.php');
+    header('Location: buku_list.php');
 } else {
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
     
         echo "<script>
-        var result = confirm('Apakah Anda yakin ingin menghapus pengguna ini?');
+        var result = confirm('Apakah Anda yakin ingin menghapus buku ini?');
         if (result) {
-            window.open('pengguna_hapus.php?confirm=true&id=$id', '_self');
+            window.open('buku_hapus.php?confirm=true&id=$id', '_self');
         } else {
-            window.open('pengguna_list.php', '_self');
+            window.open('buku_list.php', '_self');
         }
         </script>";
     }

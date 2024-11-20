@@ -18,21 +18,27 @@ if (isset($_POST['update'])) {
     $no_telp = $_POST['no_telp'];
 
     if (empty($password)) {
-        $query = "UPDATE pengguna SET nama='$nama', username='$username', alamat='$alamat', peran='$peran', no_telp='$no_telp' WHERE id_pengguna=$id";
-        if (mysqli_query($conn, $query)) {
+        $query = "UPDATE pengguna SET nama=?, username=?, alamat=?, peran=?, no_telp=? WHERE id_pengguna=?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "sssssi", $nama, $username, $alamat, $peran, $no_telp, $id);
+        if (mysqli_stmt_execute($stmt)) {
             header('Location: pengguna_list.php');
         } else {
             echo "<script>alert('Gagal update data: " . mysqli_error($conn) . "')</script>";
         }
+        mysqli_stmt_close($stmt);
         exit;
     } else {
         $password = md5($password);
-        $query = "UPDATE pengguna SET nama='$nama', username='$username', password='$password', alamat='$alamat', peran='$peran', no_telp='$no_telp' WHERE id_pengguna=$id";
-        if (mysqli_query($conn, $query)) {
+        $query = "UPDATE pengguna SET nama=?, username=?, password=?, alamat=?, peran=?, no_telp=? WHERE id_pengguna=?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ssssssi", $nama, $username, $password, $alamat, $peran, $no_telp, $id);
+        if (mysqli_stmt_execute($stmt)) {
             header('Location: pengguna_list.php');
         } else {
             echo "<script>alert('Gagal update data: " . mysqli_error($conn) . "')</script>";
         }
+        mysqli_stmt_close($stmt);
     }
 }
 ?>
