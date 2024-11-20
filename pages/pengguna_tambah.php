@@ -2,7 +2,6 @@
 include '../koneksi.php';
 
 if (isset($_POST['simpan'])) {
-    $id = $_POST['id'];
     $nama = $_POST['nama'];
     $username = $_POST['username'];
     $password = $_POST['password'];
